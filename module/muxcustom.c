@@ -5,12 +5,14 @@
 #include <dirent.h>
 #include "../common/init.h"
 #include "../common/common.h"
+#include "../common/font.h"
 #include "../common/ui_common.h"
 #include "../common/input/list_nav.h"
 
 static char theme_alt_original[MAX_BUFFER_SIZE];
+static char font_original[MAX_BUFFER_SIZE];
 static int boxart_original, bgm_original, sound_original, boxartalign_original, background_animation_original,
-        font_original, launch_splash_original, black_fade_original, theme_resolution_original, chime_original;
+        launch_splash_original, black_fade_original, theme_resolution_original, chime_original;
 
 #define UI_COUNT 15
 static lv_obj_t *ui_objects[UI_COUNT];
@@ -139,7 +141,7 @@ static void init_dropdown_settings() {
     background_animation_original = lv_dropdown_get_selected(ui_droBackgroundAnimation);
     launch_splash_original = lv_dropdown_get_selected(ui_droLaunchSplash);
     black_fade_original = lv_dropdown_get_selected(ui_droBlackFade);
-    font_original = lv_dropdown_get_selected(ui_droFont);
+    snprintf(font_original, sizeof(font_original), config.SETTINGS.ADVANCED.FONT);
     theme_resolution_original = lv_dropdown_get_selected(ui_droThemeResolution);
 }
 
@@ -298,9 +300,12 @@ static void init_navigation_group() {
             lang.MUXCUSTOM.BOX_ART.ALIGN.M_RIGHT,
             lang.MUXCUSTOM.BOX_ART.ALIGN.M_MID}, 9);
 
-    add_drop_down_options(ui_droFont, (char *[]) {
-            lang.MUXCUSTOM.FONT.LANG,
-            lang.MUXCUSTOM.FONT.THEME}, 2);
+    if (font_count == 0) init_font_list();
+    lv_dropdown_clear_options(ui_droFont);
+    lv_dropdown_add_option(ui_droFont, lang.MUXCUSTOM.FONT.THEME, LV_DROPDOWN_POS_LAST);
+    for (size_t i = 0; i < font_count; i++) {
+        lv_dropdown_add_option(ui_droFont, fonts[i].name, LV_DROPDOWN_POS_LAST);
+    }
 
     char *disabled_enabled[] = {lang.GENERIC.DISABLED, lang.GENERIC.ENABLED};
     add_drop_down_options(ui_droBackgroundAnimation, disabled_enabled, 2);
@@ -408,7 +413,11 @@ static void restore_options() {
     lv_dropdown_set_selected(ui_droBackgroundAnimation, config.VISUAL.BACKGROUNDANIMATION);
     lv_dropdown_set_selected(ui_droLaunchSplash, config.VISUAL.LAUNCHSPLASH);
     lv_dropdown_set_selected(ui_droBlackFade, config.VISUAL.BLACKFADE);
-    lv_dropdown_set_selected(ui_droFont, config.SETTINGS.ADVANCED.FONT);
+
+    int selectedFont = lv_dropdown_get_option_index(ui_droFont, config.SETTINGS.ADVANCED.FONT);
+    if (selectedFont < 0) selectedFont = 0;
+    lv_dropdown_set_selected(ui_droFont, selectedFont);
+
     lv_dropdown_set_selected(ui_droBGM, config.SETTINGS.GENERAL.BGM);
     lv_dropdown_set_selected(ui_droSound, config.SETTINGS.GENERAL.SOUND);
     lv_dropdown_set_selected(ui_droChime, config.SETTINGS.GENERAL.CHIME);
@@ -421,7 +430,8 @@ static void save_options() {
     int idx_backgroundanimation = lv_dropdown_get_selected(ui_droBackgroundAnimation);
     int idx_launchsplash = lv_dropdown_get_selected(ui_droLaunchSplash);
     int idx_blackfade = lv_dropdown_get_selected(ui_droBlackFade);
-    int idx_font = lv_dropdown_get_selected(ui_droFont);
+    char str_font[MAX_BUFFER_SIZE];
+    lv_dropdown_get_selected(ui_droFont) == 0 ? snprintf(str_font, sizeof(str_font), "THEME") : lv_dropdown_get_selected_str(ui_droFont, str_font, sizeof(str_font));
     int idx_bgm = lv_dropdown_get_selected(ui_droBGM);
     int idx_sound = lv_dropdown_get_selected(ui_droSound);
     int idx_chime = lv_dropdown_get_selected(ui_droChime);
@@ -471,9 +481,9 @@ static void save_options() {
         write_text_to_file((RUN_GLOBAL_PATH "visual/blackfade"), "w", INT, idx_blackfade);
     }
 
-    if (lv_dropdown_get_selected(ui_droFont) != font_original) {
+    if (strcmp(str_font, font_original) != 0) {
         is_modified++;
-        write_text_to_file((RUN_GLOBAL_PATH "settings/advanced/font"), "w", INT, idx_font);
+        write_text_to_file((RUN_GLOBAL_PATH "settings/advanced/font"), "w", CHAR, str_font);
     }
 
     if (lv_dropdown_get_selected(ui_droThemeResolution) != theme_resolution_original) {

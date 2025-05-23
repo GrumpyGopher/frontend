@@ -27,6 +27,7 @@
 #include "json/json.h"
 #include "init.h"
 #include "common.h"
+#include "font.h"
 #include "ui_common.h"
 #include "language.h"
 #include "log.h"
@@ -1426,6 +1427,13 @@ lv_font_t *get_language_font() {
     return font;
 }
 
+lv_font_t *get_built_in_font() {
+    int font_size = get_font_size();
+    size_t cache_size = 1024 * 100;
+    int font_id = get_font_id_by_name(config.SETTINGS.ADVANCED.FONT);
+    return lv_tiny_ttf_create_data_ex(fonts[font_id].data, fonts[font_id].length, font_size, cache_size);
+}
+
 void load_font_text_from_file(const char *filepath, lv_obj_t *element) {
     char theme_font_text_fs[MAX_BUFFER_SIZE];
     snprintf(theme_font_text_fs, sizeof(theme_font_text_fs), "M:%s", filepath);
@@ -1439,9 +1447,7 @@ void get_mux_dimension(char *mux_dimension, size_t size) {
 }
 
 void load_font_text(lv_obj_t *screen) {
-    lv_font_t *language_font = get_language_font();
-
-    if (config.SETTINGS.ADVANCED.FONT) {
+    if (strcmp(config.SETTINGS.ADVANCED.FONT, "THEME") == 0) {
         char theme_font_text_default[MAX_BUFFER_SIZE];
         char theme_font_text[MAX_BUFFER_SIZE];
 
@@ -1476,14 +1482,16 @@ void load_font_text(lv_obj_t *screen) {
                 }
             }
         }
+    } else {
+        LOG_INFO(mux_module, "Loading Built In Font")
+        lv_font_t *built_in_font = get_built_in_font();
+        built_in_font->fallback = get_language_font();
+        lv_obj_set_style_text_font(screen, built_in_font, LV_PART_MAIN | LV_STATE_DEFAULT);
     }
-
-    LOG_INFO(mux_module, "Loading Default Language Font")
-    lv_obj_set_style_text_font(screen, language_font, LV_PART_MAIN | LV_STATE_DEFAULT);
 }
 
 void load_font_section(const char *section, lv_obj_t *element) {
-    if (config.SETTINGS.ADVANCED.FONT) {
+    if (strcmp(config.SETTINGS.ADVANCED.FONT, "THEME") == 0) {
         char theme_font_section[MAX_BUFFER_SIZE];
 
         char mux_dimension[15];
@@ -1517,6 +1525,11 @@ void load_font_section(const char *section, lv_obj_t *element) {
                 }
             }
         }
+    }  else {
+        LOG_INFO(mux_module, "Loading Section Built In Font")
+        lv_font_t *built_in_font = get_built_in_font();
+        built_in_font->fallback = get_language_font();
+        lv_obj_set_style_text_font(element, built_in_font, LV_PART_MAIN | LV_STATE_DEFAULT);
     }
 }
 

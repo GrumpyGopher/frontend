@@ -32,7 +32,7 @@ struct mux_config {
             int16_t ACCELERATE;
             int16_t SWAP;
             int16_t THERMAL;
-            int16_t FONT;
+            char FONT[MAX_BUFFER_SIZE];
             char VOLUME[MAX_BUFFER_SIZE];
             char BRIGHTNESS[MAX_BUFFER_SIZE];
             int16_t OFFSET;

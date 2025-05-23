@@ -34,6 +34,7 @@ MUXLIB = $(CFLAGS) -I./module/ui -I./font -I./lookup -I./common \
 
 LDFLAGS = $(MUXLIB) -L./bin/lib -lui -llookup -lmux -lmuxmodule \
           -lnotosans_big -lnotosans_big_hd \
+		  -laudiowide_regular -lbokor_regular -lbubblegum_sans_regular -lgeo_regular -lkalam_regular -lpressstart2p_regular -lrajdhani_medium\
 		  -lnotosans_medium -lnotosans_sc_medium -lnotosans_tc_medium -lnotosans_jp_medium -lnotosans_kr_medium -lnotosans_ar_medium\
           -lSDL2 -lSDL2_mixer -lSDL2_ttf -lSDL2_image -Wl,--gc-sections -s -Wl,-rpath,'./lib'
 

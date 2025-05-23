@@ -25,7 +25,7 @@ void load_config(struct mux_config *config) {
     CFG_INT_FIELD(config->SETTINGS.ADVANCED.ACCELERATE, "settings/advanced/accelerate", 96)
     CFG_INT_FIELD(config->SETTINGS.ADVANCED.SWAP, "settings/advanced/swap", 0)
     CFG_INT_FIELD(config->SETTINGS.ADVANCED.THERMAL, "settings/advanced/thermal", 0)
-    CFG_INT_FIELD(config->SETTINGS.ADVANCED.FONT, "settings/advanced/font", 0)
+    CFG_STR_FIELD(config->SETTINGS.ADVANCED.FONT, "settings/advanced/font", "THEME")
     CFG_INT_FIELD(config->SETTINGS.ADVANCED.OFFSET, "settings/advanced/offset", 0)
     CFG_INT_FIELD(config->SETTINGS.ADVANCED.LOCK, "settings/advanced/lock", 0)
     CFG_INT_FIELD(config->SETTINGS.ADVANCED.LED, "settings/advanced/led", 0)
