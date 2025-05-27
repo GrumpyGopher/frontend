@@ -61,35 +61,35 @@ static void update_volume_and_brightness() {
     CFG_INT_FIELD(config.SETTINGS.GENERAL.BRIGHTNESS, "settings/general/brightness", 90)
     CFG_INT_FIELD(config.SETTINGS.GENERAL.VOLUME, "settings/general/volume", 75)
 
-    lv_dropdown_set_selected(ui_droBrightness_tweakgen, config.SETTINGS.GENERAL.BRIGHTNESS - 1);
+    lv_dropdown_set_selected(ui_droBrightness_tweakgen, config.SETTINGS.GENERAL.BRIGHTNESS - 1, false);
 
     if (!config.SETTINGS.ADVANCED.OVERDRIVE) {
         lv_dropdown_set_selected(ui_droVolume_tweakgen, config.SETTINGS.GENERAL.VOLUME > 100
                                                         ? config.SETTINGS.GENERAL.VOLUME / 2
-                                                        : config.SETTINGS.GENERAL.VOLUME);
+                                                        : config.SETTINGS.GENERAL.VOLUME, false);
     } else {
-        lv_dropdown_set_selected(ui_droVolume_tweakgen, config.SETTINGS.GENERAL.VOLUME);
+        lv_dropdown_set_selected(ui_droVolume_tweakgen, config.SETTINGS.GENERAL.VOLUME, false);
     }
 }
 
 static void restore_tweak_options() {
     update_volume_and_brightness();
 
-    lv_dropdown_set_selected(ui_droColour_tweakgen, config.SETTINGS.GENERAL.COLOUR + 255);
+    lv_dropdown_set_selected(ui_droColour_tweakgen, config.SETTINGS.GENERAL.COLOUR + 255, false);
 
     const char *startup_type = config.SETTINGS.GENERAL.STARTUP;
     if (strcasecmp(startup_type, "explore") == 0) {
-        lv_dropdown_set_selected(ui_droStartup_tweakgen, 1);
+        lv_dropdown_set_selected(ui_droStartup_tweakgen, 1, false);
     } else if (strcasecmp(startup_type, "collection") == 0) {
-        lv_dropdown_set_selected(ui_droStartup_tweakgen, 2);
+        lv_dropdown_set_selected(ui_droStartup_tweakgen, 2, false);
     } else if (strcasecmp(startup_type, "history") == 0) {
-        lv_dropdown_set_selected(ui_droStartup_tweakgen, 3);
+        lv_dropdown_set_selected(ui_droStartup_tweakgen, 3, false);
     } else if (strcasecmp(startup_type, "last") == 0) {
-        lv_dropdown_set_selected(ui_droStartup_tweakgen, 4);
+        lv_dropdown_set_selected(ui_droStartup_tweakgen, 4, false);
     } else if (strcasecmp(startup_type, "resume") == 0) {
-        lv_dropdown_set_selected(ui_droStartup_tweakgen, 5);
+        lv_dropdown_set_selected(ui_droStartup_tweakgen, 5, false);
     } else {
-        lv_dropdown_set_selected(ui_droStartup_tweakgen, 0);
+        lv_dropdown_set_selected(ui_droStartup_tweakgen, 0, false);
     }
 }
 

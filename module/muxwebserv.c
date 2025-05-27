@@ -60,13 +60,13 @@ static void init_dropdown_settings() {
 }
 
 static void restore_web_options() {
-    lv_dropdown_set_selected(ui_droSSHD, config.WEB.SSHD);
-    lv_dropdown_set_selected(ui_droSFTPGo, config.WEB.SFTPGO);
-    lv_dropdown_set_selected(ui_droTTYD, config.WEB.TTYD);
-    lv_dropdown_set_selected(ui_droSyncthing, config.WEB.SYNCTHING);
-    lv_dropdown_set_selected(ui_droRSLSync, config.WEB.RSLSYNC);
-    lv_dropdown_set_selected(ui_droNTP, config.WEB.NTP);
-    lv_dropdown_set_selected(ui_droTailscaled, config.WEB.TAILSCALED);
+    lv_dropdown_set_selected(ui_droSSHD, config.WEB.SSHD, false);
+    lv_dropdown_set_selected(ui_droSFTPGo, config.WEB.SFTPGO, false);
+    lv_dropdown_set_selected(ui_droTTYD, config.WEB.TTYD, false);
+    lv_dropdown_set_selected(ui_droSyncthing, config.WEB.SYNCTHING, false);
+    lv_dropdown_set_selected(ui_droRSLSync, config.WEB.RSLSYNC, false);
+    lv_dropdown_set_selected(ui_droNTP, config.WEB.NTP, false);
+    lv_dropdown_set_selected(ui_droTailscaled, config.WEB.TAILSCALED, false);
 }
 
 static void save_web_options() {

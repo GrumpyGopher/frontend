@@ -60,11 +60,11 @@ static void init_dropdown_settings() {
 static void restore_hdmi_options() {
     map_drop_down_to_index(ui_droResolution_hdmi, config.SETTINGS.HDMI.RESOLUTION,
                            (int[]) {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 11, 0);
-    lv_dropdown_set_selected(ui_droSpace_hdmi, config.SETTINGS.HDMI.SPACE);
-    lv_dropdown_set_selected(ui_droDepth_hdmi, config.SETTINGS.HDMI.DEPTH);
-    lv_dropdown_set_selected(ui_droRange_hdmi, config.SETTINGS.HDMI.RANGE);
-    lv_dropdown_set_selected(ui_droScan_hdmi, config.SETTINGS.HDMI.SCAN);
-    lv_dropdown_set_selected(ui_droAudio_hdmi, config.SETTINGS.HDMI.AUDIO);
+    lv_dropdown_set_selected(ui_droSpace_hdmi, config.SETTINGS.HDMI.SPACE, false);
+    lv_dropdown_set_selected(ui_droDepth_hdmi, config.SETTINGS.HDMI.DEPTH, false);
+    lv_dropdown_set_selected(ui_droRange_hdmi, config.SETTINGS.HDMI.RANGE, false);
+    lv_dropdown_set_selected(ui_droScan_hdmi, config.SETTINGS.HDMI.SCAN, false);
+    lv_dropdown_set_selected(ui_droAudio_hdmi, config.SETTINGS.HDMI.AUDIO, false);
 }
 
 static void save_hdmi_options() {

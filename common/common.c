@@ -744,7 +744,7 @@ char *get_datetime() {
 }
 
 void datetime_task(lv_timer_t *timer) {
-    struct dt_task_param *dt_par = timer->user_data;
+    struct dt_task_param *dt_par = lv_timer_get_user_data(timer);
     lv_label_set_text(dt_par->lblDatetime, get_datetime());
 }
 
@@ -778,10 +778,10 @@ void increase_option_value(lv_obj_t *element) {
 
     if (current < (total - 1)) {
         current++;
-        lv_dropdown_set_selected(element, current);
+        lv_dropdown_set_selected(element, current, false);
     } else {
         current = 0;
-        lv_dropdown_set_selected(element, current);
+        lv_dropdown_set_selected(element, current, false);
     }
 }
 
@@ -794,10 +794,10 @@ void decrease_option_value(lv_obj_t *element) {
 
     if (current > 0) {
         current--;
-        lv_dropdown_set_selected(element, current);
+        lv_dropdown_set_selected(element, current, false);
     } else {
         current = (total - 1);
-        lv_dropdown_set_selected(element, current);
+        lv_dropdown_set_selected(element, current, false);
     }
 }
 
@@ -1370,17 +1370,17 @@ lv_font_t *get_language_font() {
     size_t cache_size = 1024 * 10;
     lv_font_t *font;
     if (strcasecmp(config.SETTINGS.GENERAL.LANGUAGE, "Chinese (Simplified)") == 0) {
-        font = lv_tiny_ttf_create_data_ex(&notosans_sc_medium_ttf, notosans_medium_ttf_len, font_size, cache_size);
+        font = lv_tiny_ttf_create_data_ex(&notosans_sc_medium_ttf, notosans_medium_ttf_len, font_size, LV_FONT_KERNING_NORMAL, cache_size);
     } else if (strcasecmp(config.SETTINGS.GENERAL.LANGUAGE, "Chinese (Traditional)") == 0) {
-        font = lv_tiny_ttf_create_data_ex(&notosans_tc_medium_ttf, notosans_medium_ttf_len, font_size, cache_size);
+        font = lv_tiny_ttf_create_data_ex(&notosans_tc_medium_ttf, notosans_medium_ttf_len, font_size, LV_FONT_KERNING_NORMAL, cache_size);
     } else if (strcasecmp(config.SETTINGS.GENERAL.LANGUAGE, "Japanese") == 0) {
-        font = lv_tiny_ttf_create_data_ex(&notosans_jp_medium_ttf, notosans_medium_ttf_len, font_size, cache_size);
+        font = lv_tiny_ttf_create_data_ex(&notosans_jp_medium_ttf, notosans_medium_ttf_len, font_size, LV_FONT_KERNING_NORMAL, cache_size);
     } else if (strcasecmp(config.SETTINGS.GENERAL.LANGUAGE, "Arabic") == 0) {
-        font = lv_tiny_ttf_create_data_ex(&notosans_ar_medium_ttf, notosans_medium_ttf_len, font_size, cache_size);
+        font = lv_tiny_ttf_create_data_ex(&notosans_ar_medium_ttf, notosans_medium_ttf_len, font_size, LV_FONT_KERNING_NORMAL, cache_size);
     } else if (strcasecmp(config.SETTINGS.GENERAL.LANGUAGE, "Korean") == 0) {
-        font = lv_tiny_ttf_create_data_ex(&notosans_kr_medium_ttf, notosans_medium_ttf_len, font_size, cache_size);
+        font = lv_tiny_ttf_create_data_ex(&notosans_kr_medium_ttf, notosans_medium_ttf_len, font_size, LV_FONT_KERNING_NORMAL, cache_size);
     } else {
-        font = lv_tiny_ttf_create_data_ex(&notosans_medium_ttf, notosans_medium_ttf_len, font_size, cache_size);
+        font = lv_tiny_ttf_create_data_ex(&notosans_medium_ttf, notosans_medium_ttf_len, font_size, LV_FONT_KERNING_NORMAL, cache_size);
     }
     return font;
 }
@@ -1388,7 +1388,7 @@ lv_font_t *get_language_font() {
 void load_font_text_from_file(const char *filepath, lv_obj_t *element) {
     char theme_font_text_fs[MAX_BUFFER_SIZE];
     snprintf(theme_font_text_fs, sizeof(theme_font_text_fs), "M:%s", filepath);
-    lv_font_t *font = lv_font_load(theme_font_text_fs);
+    lv_font_t *font = lv_binfont_create(theme_font_text_fs);
     font->fallback = get_language_font();
     lv_obj_set_style_text_font(element, font, LV_PART_MAIN | LV_STATE_DEFAULT);
 }
@@ -1687,30 +1687,32 @@ void adjust_visual_label(char *text, int method, int rep_dash) {
 
 void update_image(lv_obj_t *ui_imgobj, struct ImageSettings image_settings) {
     if (file_exist(image_settings.image_path)) {
-        char image_path[MAX_BUFFER_SIZE];
-        snprintf(image_path, sizeof(image_path), "M:%s", image_settings.image_path);
+        //TODO: Implement Image Resizing
 
-        if (image_settings.max_height > 0 && image_settings.max_width > 0) {
-            lv_img_header_t img_header;
-            lv_img_decoder_get_info(image_path, &img_header);
+        // char image_path[MAX_BUFFER_SIZE];
+        // snprintf(image_path, sizeof(image_path), "M:%s", image_settings.image_path);
 
-            float width_ratio = (float) image_settings.max_width / img_header.w;
-            float height_ratio = (float) image_settings.max_height / img_header.h;
-            float zoom_ratio = (width_ratio < height_ratio) ? width_ratio : height_ratio;
+        // if (image_settings.max_height > 0 && image_settings.max_width > 0) {
+        //     lv_img_header_t img_header;
+        //     lv_img_decoder_get_info(image_path, &img_header);
 
-            int zoom_factor = (int) (zoom_ratio * 256);
+        //     float width_ratio = (float) image_settings.max_width / img_header.w;
+        //     float height_ratio = (float) image_settings.max_height / img_header.h;
+        //     float zoom_ratio = (width_ratio < height_ratio) ? width_ratio : height_ratio;
 
-            lv_img_set_size_mode(ui_imgobj, LV_IMG_SIZE_MODE_REAL);
-            lv_img_set_zoom(ui_imgobj, zoom_factor);
-        }
+        //     int zoom_factor = (int) (zoom_ratio * 256);
 
-        lv_obj_set_align(ui_imgobj, image_settings.align);
-        lv_obj_set_style_pad_left(ui_imgobj, image_settings.pad_left, LV_PART_MAIN | LV_STATE_DEFAULT);
-        lv_obj_set_style_pad_right(ui_imgobj, image_settings.pad_right, LV_PART_MAIN | LV_STATE_DEFAULT);
-        lv_obj_set_style_pad_top(ui_imgobj, image_settings.pad_top, LV_PART_MAIN | LV_STATE_DEFAULT);
-        lv_obj_set_style_pad_bottom(ui_imgobj, image_settings.pad_bottom, LV_PART_MAIN | LV_STATE_DEFAULT);
-        lv_img_set_src(ui_imgobj, image_path);
-        lv_obj_move_foreground(ui_imgobj);
+        //     lv_img_set_size_mode(ui_imgobj, LV_IMG_SIZE_MODE_REAL);
+        //     lv_img_set_zoom(ui_imgobj, zoom_factor);
+        // }
+
+        // lv_obj_set_align(ui_imgobj, image_settings.align);
+        // lv_obj_set_style_pad_left(ui_imgobj, image_settings.pad_left, LV_PART_MAIN | LV_STATE_DEFAULT);
+        // lv_obj_set_style_pad_right(ui_imgobj, image_settings.pad_right, LV_PART_MAIN | LV_STATE_DEFAULT);
+        // lv_obj_set_style_pad_top(ui_imgobj, image_settings.pad_top, LV_PART_MAIN | LV_STATE_DEFAULT);
+        // lv_obj_set_style_pad_bottom(ui_imgobj, image_settings.pad_bottom, LV_PART_MAIN | LV_STATE_DEFAULT);
+        // lv_img_set_src(ui_imgobj, image_path);
+        // lv_obj_move_foreground(ui_imgobj);
     } else {
         lv_img_set_src(ui_imgobj, &ui_image_Nothing);
     }
@@ -2022,12 +2024,12 @@ void free_subdirectories(char **dir_names) {
 void map_drop_down_to_index(lv_obj_t *dropdown, int value, const int *options, int num_options, int def_index) {
     for (int i = 0; i < num_options; i++) {
         if (value == options[i]) {
-            lv_dropdown_set_selected(dropdown, i);
+            lv_dropdown_set_selected(dropdown, i, false);
             return;
         }
     }
 
-    lv_dropdown_set_selected(dropdown, def_index);
+    lv_dropdown_set_selected(dropdown, def_index, false);
 }
 
 int map_drop_down_to_value(int selected_index, const int *options, int num_options, int def_value) {

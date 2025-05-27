@@ -83,22 +83,22 @@ static void init_dropdown_settings() {
 }
 
 static void restore_visual_options() {
-    lv_dropdown_set_selected(ui_droBattery_visual_visual, config.VISUAL.BATTERY);
-    lv_dropdown_set_selected(ui_droClock_visual, config.VISUAL.CLOCK);
-    lv_dropdown_set_selected(ui_droNetwork_visual_visual, config.VISUAL.NETWORK);
-    lv_dropdown_set_selected(ui_droName_visual, config.VISUAL.NAME);
-    lv_dropdown_set_selected(ui_droDash_visual, config.VISUAL.DASH);
-    lv_dropdown_set_selected(ui_droFriendlyFolder_visual, config.VISUAL.FRIENDLYFOLDER);
-    lv_dropdown_set_selected(ui_droTheTitleFormat_visual, config.VISUAL.THETITLEFORMAT);
-    lv_dropdown_set_selected(ui_droTitleIncludeRootDrive_visual, config.VISUAL.TITLEINCLUDEROOTDRIVE);
-    lv_dropdown_set_selected(ui_droFolderItemCount_visual, config.VISUAL.FOLDERITEMCOUNT);
-    lv_dropdown_set_selected(ui_droDisplayEmptyFolder_visual, config.VISUAL.FOLDEREMPTY);
-    lv_dropdown_set_selected(ui_droMenuCounterFolder_visual, config.VISUAL.COUNTERFOLDER);
-    lv_dropdown_set_selected(ui_droMenuCounterFile_visual, config.VISUAL.COUNTERFILE);
-    lv_dropdown_set_selected(ui_droHidden_visual, config.SETTINGS.GENERAL.HIDDEN);
+    lv_dropdown_set_selected(ui_droBattery_visual_visual, config.VISUAL.BATTERY, false);
+    lv_dropdown_set_selected(ui_droClock_visual, config.VISUAL.CLOCK, false);
+    lv_dropdown_set_selected(ui_droNetwork_visual_visual, config.VISUAL.NETWORK, false);
+    lv_dropdown_set_selected(ui_droName_visual, config.VISUAL.NAME, false);
+    lv_dropdown_set_selected(ui_droDash_visual, config.VISUAL.DASH, false);
+    lv_dropdown_set_selected(ui_droFriendlyFolder_visual, config.VISUAL.FRIENDLYFOLDER, false);
+    lv_dropdown_set_selected(ui_droTheTitleFormat_visual, config.VISUAL.THETITLEFORMAT, false);
+    lv_dropdown_set_selected(ui_droTitleIncludeRootDrive_visual, config.VISUAL.TITLEINCLUDEROOTDRIVE, false);
+    lv_dropdown_set_selected(ui_droFolderItemCount_visual, config.VISUAL.FOLDERITEMCOUNT, false);
+    lv_dropdown_set_selected(ui_droDisplayEmptyFolder_visual, config.VISUAL.FOLDEREMPTY, false);
+    lv_dropdown_set_selected(ui_droMenuCounterFolder_visual, config.VISUAL.COUNTERFOLDER, false);
+    lv_dropdown_set_selected(ui_droMenuCounterFile_visual, config.VISUAL.COUNTERFILE, false);
+    lv_dropdown_set_selected(ui_droHidden_visual, config.SETTINGS.GENERAL.HIDDEN, false);
     lv_dropdown_set_selected(ui_droOverlayImage_visual,
-                             (config.VISUAL.OVERLAY_IMAGE > overlay_count) ? 0 : config.VISUAL.OVERLAY_IMAGE);
-    lv_dropdown_set_selected(ui_droOverlayTransparency_visual, config.VISUAL.OVERLAY_TRANSPARENCY);
+                             (config.VISUAL.OVERLAY_IMAGE > overlay_count) ? 0 : config.VISUAL.OVERLAY_IMAGE, false);
+    lv_dropdown_set_selected(ui_droOverlayTransparency_visual, config.VISUAL.OVERLAY_TRANSPARENCY, false);
 }
 
 static void save_visual_options() {

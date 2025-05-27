@@ -90,8 +90,8 @@ static void restore_tweak_options() {
                            (int[]) {32767, 16, 32, 48, 64, 80, 96, 112, 128,
                                     144, 160, 176, 192, 208, 224, 240, 256}, 17, 6);
 
-    lv_dropdown_set_selected(ui_droSwap_tweakadv, config.SETTINGS.ADVANCED.SWAP);
-    lv_dropdown_set_selected(ui_droThermal_tweakadv, config.SETTINGS.ADVANCED.THERMAL);
+    lv_dropdown_set_selected(ui_droSwap_tweakadv, config.SETTINGS.ADVANCED.SWAP, false);
+    lv_dropdown_set_selected(ui_droThermal_tweakadv, config.SETTINGS.ADVANCED.THERMAL, false);
 
     const char *volume_type = config.SETTINGS.ADVANCED.VOLUME;
     int volume_index = 0;
@@ -104,7 +104,7 @@ static void restore_tweak_options() {
     } else if (!strcasecmp(volume_type, "loud")) {
         volume_index = 3;
     }
-    lv_dropdown_set_selected(ui_droVolume_tweakadv, volume_index);
+    lv_dropdown_set_selected(ui_droVolume_tweakadv, volume_index, false);
 
     const char *brightness_type = config.SETTINGS.ADVANCED.BRIGHTNESS;
     int brightness_index = 0;
@@ -117,26 +117,26 @@ static void restore_tweak_options() {
     } else if (!strcasecmp(brightness_type, "high")) {
         brightness_index = 3;
     }
-    lv_dropdown_set_selected(ui_droBrightness_tweakadv, brightness_index);
+    lv_dropdown_set_selected(ui_droBrightness_tweakadv, brightness_index, false);
 
-    lv_dropdown_set_selected(ui_droOffset_tweakadv, config.SETTINGS.ADVANCED.OFFSET);
-    lv_dropdown_set_selected(ui_droPasscode_tweakadv, config.SETTINGS.ADVANCED.LOCK);
-    lv_dropdown_set_selected(ui_droLED_tweakadv, config.SETTINGS.ADVANCED.LED);
-    lv_dropdown_set_selected(ui_droTheme_tweakadv, config.SETTINGS.ADVANCED.THEME);
-    lv_dropdown_set_selected(ui_droRetroWait_tweakadv, config.SETTINGS.ADVANCED.RETROWAIT);
+    lv_dropdown_set_selected(ui_droOffset_tweakadv, config.SETTINGS.ADVANCED.OFFSET, false);
+    lv_dropdown_set_selected(ui_droPasscode_tweakadv, config.SETTINGS.ADVANCED.LOCK, false);
+    lv_dropdown_set_selected(ui_droLED_tweakadv, config.SETTINGS.ADVANCED.LED, false);
+    lv_dropdown_set_selected(ui_droTheme_tweakadv, config.SETTINGS.ADVANCED.THEME, false);
+    lv_dropdown_set_selected(ui_droRetroWait_tweakadv, config.SETTINGS.ADVANCED.RETROWAIT, false);
 
     const char *state_type = config.SETTINGS.ADVANCED.STATE;
     if (!strcasecmp(state_type, "freeze")) {
-        lv_dropdown_set_selected(ui_droState_tweakadv, 1);
+        lv_dropdown_set_selected(ui_droState_tweakadv, 1, false);
     } else {
-        lv_dropdown_set_selected(ui_droState_tweakadv, 0);
+        lv_dropdown_set_selected(ui_droState_tweakadv, 0, false);
     }
 
-    lv_dropdown_set_selected(ui_droVerbose_tweakadv, config.SETTINGS.ADVANCED.VERBOSE);
-    lv_dropdown_set_selected(ui_droRumble_tweakadv, config.SETTINGS.ADVANCED.RUMBLE);
-    lv_dropdown_set_selected(ui_droUserInit_tweakadv, config.SETTINGS.ADVANCED.USERINIT);
-    lv_dropdown_set_selected(ui_droDPADSwap_tweakadv, config.SETTINGS.ADVANCED.DPADSWAP);
-    lv_dropdown_set_selected(ui_droOverdrive_tweakadv, config.SETTINGS.ADVANCED.OVERDRIVE);
+    lv_dropdown_set_selected(ui_droVerbose_tweakadv, config.SETTINGS.ADVANCED.VERBOSE, false);
+    lv_dropdown_set_selected(ui_droRumble_tweakadv, config.SETTINGS.ADVANCED.RUMBLE, false);
+    lv_dropdown_set_selected(ui_droUserInit_tweakadv, config.SETTINGS.ADVANCED.USERINIT, false);
+    lv_dropdown_set_selected(ui_droDPADSwap_tweakadv, config.SETTINGS.ADVANCED.DPADSWAP, false);
+    lv_dropdown_set_selected(ui_droOverdrive_tweakadv, config.SETTINGS.ADVANCED.OVERDRIVE, false);
 
     map_drop_down_to_index(ui_droSwap_tweakadvfile, config.SETTINGS.ADVANCED.SWAPFILE,
                            (int[]) {0, 64, 128, 192, 256, 320, 384, 448, 512}, 9, 0);
@@ -146,9 +146,9 @@ static void restore_tweak_options() {
 
     const char *card_type = config.SETTINGS.ADVANCED.CARDMODE;
     if (!strcasecmp(card_type, "noop")) {
-        lv_dropdown_set_selected(ui_droCardMode_tweakadv, 1);
+        lv_dropdown_set_selected(ui_droCardMode_tweakadv, 1, false);
     } else {
-        lv_dropdown_set_selected(ui_droCardMode_tweakadv, 0);
+        lv_dropdown_set_selected(ui_droCardMode_tweakadv, 0, false);
     }
 
 }

@@ -52,13 +52,13 @@ static void init_dropdown_settings() {
 static void restore_options() {
     const char *usb_type = config.SETTINGS.ADVANCED.USBFUNCTION;
     if (!strcasecmp(usb_type, "adb")) {
-        lv_dropdown_set_selected(ui_droUSBFunction, 1);
+        lv_dropdown_set_selected(ui_droUSBFunction, 1, false);
     } else if (!strcasecmp(usb_type, "mtp")) {
-        lv_dropdown_set_selected(ui_droUSBFunction, 2);
+        lv_dropdown_set_selected(ui_droUSBFunction, 2, false);
     } else {
-        lv_dropdown_set_selected(ui_droUSBFunction, 0);
+        lv_dropdown_set_selected(ui_droUSBFunction, 0, false);
     }
-    lv_dropdown_set_selected(ui_droBluetooth, config.VISUAL.BLUETOOTH);
+    lv_dropdown_set_selected(ui_droBluetooth, config.VISUAL.BLUETOOTH, false);
 }
 
 static void save_options() {

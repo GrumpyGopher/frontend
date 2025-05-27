@@ -51,7 +51,7 @@ static void restore_theme_resolution() {
     for (size_t i = 0; i < sizeof(theme_resolutions) / sizeof(theme_resolutions[0]); i++) {
         if (theme_resolutions[i].value == config.SETTINGS.GENERAL.THEME_RESOLUTION) {
             int index = lv_dropdown_get_option_index(ui_droThemeResolution, theme_resolutions[i].resolution);
-            lv_dropdown_set_selected(ui_droThemeResolution, index <= 0 ? 0 : index);
+            lv_dropdown_set_selected(ui_droThemeResolution, index <= 0 ? 0 : index, false);
         }
     }
 }
@@ -402,16 +402,16 @@ static void restore_options() {
              str_replace(read_line_char_from((STORAGE_THEME "/active.txt"), 1), "\r", ""));
     int32_t option_index = lv_dropdown_get_option_index(ui_droThemeAlternate, theme_alt_original);
     if (option_index > 0)
-        lv_dropdown_set_selected(ui_droThemeAlternate, option_index);
-    lv_dropdown_set_selected(ui_droBoxArt, config.VISUAL.BOX_ART);
-    lv_dropdown_set_selected(ui_droBoxArtAlign, config.VISUAL.BOX_ART_ALIGN - 1);
-    lv_dropdown_set_selected(ui_droBackgroundAnimation, config.VISUAL.BACKGROUNDANIMATION);
-    lv_dropdown_set_selected(ui_droLaunchSplash, config.VISUAL.LAUNCHSPLASH);
-    lv_dropdown_set_selected(ui_droBlackFade, config.VISUAL.BLACKFADE);
-    lv_dropdown_set_selected(ui_droFont, config.SETTINGS.ADVANCED.FONT);
-    lv_dropdown_set_selected(ui_droBGM, config.SETTINGS.GENERAL.BGM);
-    lv_dropdown_set_selected(ui_droSound, config.SETTINGS.GENERAL.SOUND);
-    lv_dropdown_set_selected(ui_droChime, config.SETTINGS.GENERAL.CHIME);
+        lv_dropdown_set_selected(ui_droThemeAlternate, option_index, false);
+    lv_dropdown_set_selected(ui_droBoxArt, config.VISUAL.BOX_ART, false);
+    lv_dropdown_set_selected(ui_droBoxArtAlign, config.VISUAL.BOX_ART_ALIGN - 1, false);
+    lv_dropdown_set_selected(ui_droBackgroundAnimation, config.VISUAL.BACKGROUNDANIMATION, false);
+    lv_dropdown_set_selected(ui_droLaunchSplash, config.VISUAL.LAUNCHSPLASH, false);
+    lv_dropdown_set_selected(ui_droBlackFade, config.VISUAL.BLACKFADE, false);
+    lv_dropdown_set_selected(ui_droFont, config.SETTINGS.ADVANCED.FONT, false);
+    lv_dropdown_set_selected(ui_droBGM, config.SETTINGS.GENERAL.BGM, false);
+    lv_dropdown_set_selected(ui_droSound, config.SETTINGS.GENERAL.SOUND, false);
+    lv_dropdown_set_selected(ui_droChime, config.SETTINGS.GENERAL.CHIME, false);
     restore_theme_resolution();
 }
 
